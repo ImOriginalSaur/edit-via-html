@@ -3,366 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mary on a Cross - TikTok Style Edit</title>
+    <title>Meme Quiz Time! 🚗💨</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            background-color: #050505;
-            color: #ffffff;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f0f3f8;
+            font-family: 'Impact', 'Arial Black', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
+            margin: 0;
             overflow: hidden;
+            flex-direction: column;
         }
 
-        /* Video Container (Phone Aspect Ratio) */
-        .phone-container {
-            width: 100%;
-            max-width: 400px;
-            height: 90vh;
-            max-height: 800px;
-            background: #111;
+        .screen {
+            display: none;
+            text-align: center;
+            z-index: 2;
+            max-width: 450px;
+            width: 90%;
+            background: #ffffff;
+            padding: 35px 25px;
             border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-            border: 4px solid #222;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            border: 4px solid #000000;
+            box-shadow: 8px 8px 0px #000000;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Intro Screen with Start Button */
-        .intro-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1f1c2c, #928dab);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            transition: opacity 0.8s ease;
-            text-align: center;
-            padding: 20px;
+        .active {
+            display: block;
         }
 
-        .intro-screen h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            font-weight: 800;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-
-        .intro-screen p {
-            font-size: 0.9rem;
-            color: #ddd;
-            margin-bottom: 30px;
-        }
-
-        .start-btn {
-            background: #ff0050; /* TikTok Pink */
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 0, 80, 0.6);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .start-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 0, 80, 0.9);
-        }
-
-        /* Edit Screen */
-        .edit-screen {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            background: #000;
-            display: none;
-        }
-
-        /* Slide / Photo Container */
-        .photo-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            background-size: cover;
-            background-position: center;
-            transition: opacity 0.1s ease;
-        }
-
-        .slide.active {
-            opacity: 1;
-        }
-
-        /* Flash Effect overlay */
-        .flash {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #fff;
-            opacity: 0;
-            pointer-events: none;
-            z-index: 5;
-        }
-
-        /* CSS Animations */
-        @keyframes zoomPulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.18); }
-        }
-
-        @keyframes shake {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            20% { transform: translate(-8px, 6px) rotate(-1.5deg); }
-            40% { transform: translate(6px, -8px) rotate(1.5deg); }
-            60% { transform: translate(-8px, -4px) rotate(-1deg); }
-            80% { transform: translate(6px, 6px) rotate(1deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
-        }
-
-        @keyframes flashAnim {
-            0% { opacity: 0.8; }
-            100% { opacity: 0; }
-        }
-
-        .zoom-effect {
-            animation: zoomPulse 3.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-        }
-
-        .beat-shake {
-            animation: shake 0.15s ease-in-out;
-        }
-
-        .flash-active {
-            animation: flashAnim 0.25s ease-out forwards;
-        }
-
-        /* Retro Overlay styling */
-        .retro-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.04));
-            background-size: 100% 4px, 6px 100%;
-            pointer-events: none;
-            z-index: 4;
-        }
-
-        /* Lyrics Styling */
-        .lyrics-container {
-            position: absolute;
-            bottom: 12%;
-            width: 100%;
-            text-align: center;
-            padding: 0 20px;
-            z-index: 6;
-            pointer-events: none;
-        }
-
-        .lyric-line {
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 2px 2px 0px #00f0ff, -2px -2px 0px #ff007f;
-            display: none;
+        h1 {
+            font-size: 26px;
+            color: #000000;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-bottom: 25px;
+            line-height: 1.3;
         }
 
-        .lyric-line.active {
-            display: block;
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .btn-option {
+            background-color: #fbc531;
+            color: #000000;
+            border: 3px solid #000000;
+            font-family: 'Arial Black', sans-serif;
+            font-weight: bold;
+            text-align: left;
+            padding: 16px 20px;
+            font-size: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px #000000;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        .btn-option:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #000000;
+        }
+
+        .btn-option:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000000;
+        }
+
+        .meme-img {
+            width: 85%;
+            max-width: 280px;
+            border: 4px solid #000000;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 4px 4px 0px #000000;
+        }
+
+        .btn-reset {
+            background-color: #4cd137;
+            color: white;
+            padding: 12px 25px;
+            font-size: 16px;
+            border: 3px solid #000000;
+            border-radius: 10px;
+            box-shadow: 4px 4px 0px #000000;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .btn-reset:hover {
+            background-color: #44bd32;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <div class="phone-container">
-        <div class="intro-screen" id="introScreen">
-            <h1>Mary on a Cross</h1>
-            <p>TikTok Style Fan Edit</p>
-            <button class="start-btn" id="startBtn">PLAY EDIT</button>
-        </div>
-
-        <div class="edit-screen" id="editScreen">
-            <div class="retro-overlay"></div>
-            <div class="flash" id="flashOverlay"></div>
-            
-            <div class="photo-container" id="photoContainer"></div>
-            <div class="lyrics-container" id="lyricsContainer"></div>
+    <!-- SCREEN 1: THE TRAFFIC QUESTION -->
+    <div class="screen active" id="screen-quiz">
+        <h1>Anong gagawin mo kung may liliko sa kanan? 🤔🚘</h1>
+        <div class="quiz-container">
+            <button class="btn-option" onclick="playMemeQuiz('A')">A. Sisingit</button>
+            <button class="btn-option" onclick="playMemeQuiz('B')">B. Hihinto</button>
+            <button class="btn-option" onclick="playMemeQuiz('C')">C. Dederetso</button>
+            <button class="btn-option" onclick="playMemeQuiz('D')">D. Wala akong pake-alam</button>
         </div>
     </div>
 
-    <audio id="editMusic" src="music.mp3" preload="auto"></audio>
+    <!-- SCREEN 2: DYNAMIC FAIL SCREEN (Content updates automatically) -->
+    <div class="screen" id="screen-fail">
+        <!-- The ID attributes below let JS change the image and text on the fly -->
+        <img class="meme-img" id="fail-image" src="https://media.tenor.com/tHqg2uD6vK8AAAAM/maiipit-ka-ngani-maiipit-ka.gif" alt="Meme React">
+        <h1 id="fail-title" style="color: #e84118; margin-bottom: 10px;">⚠️ MAIIPIT KA NGANII!</h1>
+        <p id="fail-description" style="font-family: sans-serif; font-weight: bold; color: #333;">KAMOTE KABA?! HA?!! SABIHIN MOLANG, ALAM MO NAKAKAINIS KA!</p>
+        <button class="btn-reset" onclick="resetQuiz()">TRY AGAIN 🔄</button>
+    </div>
+
+    <!-- SCREEN 3: SUCCESS SCREEN (For B) -->
+    <div class="screen" id="screen-success">
+        <img class="meme-img" src="https://github.com/ImOriginalSaur/teatsing/blob/main/Correct.png.jpg?raw=true" alt="Success Dance">
+        <h1 style="color: #4cd137; margin-bottom: 10px;">AMEYSING!!!</h1>
+        <p style="font-family: sans-serif; font-weight: bold; color: #333;">Galing mo ah!!</p>
+        <button class="btn-reset" onclick="resetQuiz()" style="background-color: #00a8ff;">PLAY AGAIN 🚗</button>
+    </div>
+
+    <!-- ================= AUDIO ELEMENTS ================= -->
+
+    <!-- AUDIO A: Sisingit ("Maiipit Ka Ngani") -->
+    <audio id="audio-a" preload="auto">
+        <source src="https://github.com/ImOriginalSaur/teatsing/raw/refs/heads/main/maiipit-ka-nganii.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- AUDIO B: Hihinto (Correct/Win Sound) -->
+    <audio id="audio-b" preload="auto">
+        <source src="https://github.com/ImOriginalSaur/teatsing/raw/refs/heads/main/wow-galing-naman.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- AUDIO C: Dederetso (Gadon) -->
+    <audio id="audio-c" preload="auto">
+        <source src="https://github.com/ImOriginalSaur/teatsing/raw/refs/heads/main/gadon-curses-raises-middle-finger-at-sereno-supporters.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- AUDIO D: Wala akong pake-alam (Baliw ka yata) -->
+    <audio id="audio-d" preload="auto">
+        <source src="https://github.com/ImOriginalSaur/teatsing/raw/refs/heads/main/baliw-ka-yata-eh.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
-        const startBtn = document.getElementById('startBtn');
-        const introScreen = document.getElementById('introScreen');
-        const editScreen = document.getElementById('editScreen');
-        const music = document.getElementById('editMusic');
-        const photoContainer = document.getElementById('photoContainer');
-        const lyricsContainer = document.getElementById('lyricsContainer');
-        const flashOverlay = document.getElementById('flashOverlay');
+        const audioA = document.getElementById('audio-a');
+        const audioB = document.getElementById('audio-b');
+        const audioC = document.getElementById('audio-c');
+        const audioD = document.getElementById('audio-d');
 
-        // Dynamic Gothic images
-        const images = [
-            "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop", 
-            "https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?q=80&w=600&auto=format&fit=crop", 
-            "https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?q=80&w=600&auto=format&fit=crop", 
-            "https://images.unsplash.com/photo-1515263487990-61b07816b324?q=80&w=600&auto=format&fit=crop", 
-            "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=600&auto=format&fit=crop"
-        ];
-
-        // Edit Timeline (Adjust these timing numbers if your audio file drops at a different second!)
-        const timeline = [
-            { time: 0,    imageIdx: 0, text: "But you downplay the beauty" },
-            { time: 2800, imageIdx: 1, text: "Of our yesterdays" },
-            { time: 5500, imageIdx: 2, text: "And you downplay the pity" },
-            { time: 8200, imageIdx: 3, text: "Of my world's decay" },
-            { time: 11000, imageIdx: 4, text: "YOU GO DOWN", beat: true },
-            { time: 11800, imageIdx: 0, text: "LIKE HOLY WATER", beat: true },
-            { time: 12800, imageIdx: 1, text: "MINDS AS CHASTE", beat: true },
-            { time: 13500, imageIdx: 2, text: "AS A VIRGIN CAN BE", beat: true },
-            { time: 14500, imageIdx: 3, text: "BUT YOUR MOTHER", beat: true },
-            { time: 15300, imageIdx: 4, text: "WOULD NEVER PREACH", beat: true },
-            { time: 16500, imageIdx: 0, text: "NOT ANOTHER", beat: true },
-            { time: 17800, imageIdx: 1, text: "YOU SHED", beat: true },
-            { time: 19000, imageIdx: 2, text: "AND MORE!", beat: true },
-            { time: 20200, imageIdx: 3, text: "YOU CAN MYSTIFY", beat: true },
-            { time: 21500, imageIdx: 4, text: "MORE MORE MORE", beat: true },
-            { time: 22800, imageIdx: 0, text: "IF YOU CHOOSE TO RUN AWAY WITH ME", beat: true },
-            { time: 25000, imageIdx: 1, text: "WE'LL BE SLIPPIN'", beat: true },
-            { time: 26000, imageIdx: 2, text: "THROUGH THE GRACES", beat: true },
-            { time: 27000, imageIdx: 3, text: "OF YOUR LOVE...", beat: true },
-            { time: 28200, imageIdx: 4, text: "AND I WOULD NOT WANT", beat: true },
-            { time: 29500, imageIdx: 0, text: "ANY OTHER WAY", beat: true },
-            { time: 31200, imageIdx: 1, text: "NOTHING TO DO WITH", beat: true },
-            { time: 32500, imageIdx: 2, text: "MARY...", beat: true },
-            { time: 33500, imageIdx: 3, text: "MARY ON A...", beat: true },
-            { time: 34500, imageIdx: 4, text: "MARY ON A CROSS!", beat: true }
-        ];
-
-        function setupEdit() {
-            images.forEach((imgSrc, idx) => {
-                const slide = document.createElement('div');
-                slide.className = 'slide';
-                slide.style.backgroundImage = `url('${imgSrc}')`;
-                slide.id = `slide-${idx}`;
-                photoContainer.appendChild(slide);
-            });
-
-            timeline.forEach((item, idx) => {
-                const lyr = document.createElement('div');
-                lyr.className = 'lyric-line';
-                lyr.id = `lyric-${idx}`;
-                lyr.innerText = item.text;
-                lyricsContainer.appendChild(lyr);
-            });
+        function goToScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
         }
 
-        function triggerBeatEffect() {
-            flashOverlay.classList.remove('flash-active');
-            void flashOverlay.offsetWidth; 
-            flashOverlay.classList.add('flash-active');
+        function playMemeQuiz(choice) {
+            // Stop all sounds before playing the new one
+            audioA.pause(); audioB.pause(); audioC.pause(); audioD.pause();
 
-            photoContainer.classList.remove('beat-shake');
-            void photoContainer.offsetWidth; 
-            photoContainer.classList.add('beat-shake');
-        }
+            // Get references to our dynamic elements
+            const failImg = document.getElementById('fail-image');
+            const failTitle = document.getElementById('fail-title');
+            const failDesc = document.getElementById('fail-description');
 
-        function runEdit() {
-            let currentTimelineIndex = -1;
+            if (choice === 'A') {
+                // Set Up Screen 2 Content for Option A
+                failImg.src = "https://github.com/ImOriginalSaur/teatsing/blob/main/jb-suarez-patawaadd-v0-q4j4cemtqq9h1.png?raw=true";
+                failTitle.innerText = "⚠️ MAIIPIT KA NGANII!";
+                failDesc.innerText = "KAMOTE KABA?! HA?!! SABIHIN MOLANG, ALAM MO NAKAKAINIS KA!";
 
-            function checkTimeline() {
-                const currentTimeMs = music.currentTime * 1000;
-                let activeIdx = -1;
+                audioA.currentTime = 0;
+                audioA.play().catch(e => console.log(e));
+                goToScreen('screen-fail');
+            } 
+            else if (choice === 'B') {
+                audioB.currentTime = 0;
+                audioB.play().catch(e => console.log(e));
+                goToScreen('screen-success');
+            } 
+            else if (choice === 'C') {
+                // Set Up Screen 2 Content for Option C (Gadon Vibe)
+                // Using a funny angry anime/meme react GIF for Gadon's vibe
+                failImg.src = "https://github.com/ImOriginalSaur/teatsing/raw/refs/heads/main/gadon.png.jfif"; 
+                failTitle.innerText = "BOBO!!!";
+                failDesc.innerText = "DEDERETSO KAPA TALAGA?! ANO KA NONCHALANT??!!";
 
-                for (let i = 0; i < timeline.length; i++) {
-                    if (currentTimeMs >= timeline[i].time) {
-                        activeIdx = i;
-                    } else {
-                        break;
-                    }
-                }
+                audioC.currentTime = 0;
+                audioC.play().catch(e => console.log(e));
+                goToScreen('screen-fail');
+            } 
+            else if (choice === 'D') {
+                // Set Up Screen 2 Content for Option D (Baliw ka yata Vibe)
+                // Using a classic "baliw" / questioning life choices GIF
+                failImg.src = "https://github.com/ImOriginalSaur/teatsing/blob/main/babalu.png.jpg?raw=true";
+                failTitle.innerText = "⚠️ BALIW KA YATA EH!";
+                failDesc.innerText = "Wala kang pakealam? Mag-commute ka na lang kung ganyan ka mag-isip! 🥴";
 
-                if (activeIdx !== currentTimelineIndex && activeIdx !== -1) {
-                    currentTimelineIndex = activeIdx;
-                    const cue = timeline[activeIdx];
-
-                    document.querySelectorAll('.slide').forEach(s => {
-                        s.classList.remove('active');
-                        s.classList.remove('zoom-effect');
-                    });
-                    document.querySelectorAll('.lyric-line').forEach(l => l.classList.remove('active'));
-
-                    const targetSlide = document.getElementById(`slide-${cue.imageIdx}`);
-                    if (targetSlide) {
-                        targetSlide.classList.add('active');
-                        targetSlide.classList.add('zoom-effect');
-                    }
-
-                    const targetLyric = document.getElementById(`lyric-${activeIdx}`);
-                    if (targetLyric) {
-                        targetLyric.classList.add('active');
-                    }
-
-                    if (cue.beat) {
-                        triggerBeatEffect();
-                    }
-                }
-
-                if (!music.paused && !music.ended) {
-                    requestAnimationFrame(checkTimeline);
-                }
+                audioD.currentTime = 0;
+                audioD.play().catch(e => console.log(e));
+                goToScreen('screen-fail');
             }
-
-            music.play().then(() => {
-                requestAnimationFrame(checkTimeline);
-            }).catch(error => {
-                console.error("Playback stalled:", error);
-            });
         }
 
-        setupEdit();
-
-        startBtn.addEventListener('click', () => {
-            introScreen.style.opacity = '0';
-            setTimeout(() => {
-                introScreen.style.display = 'none';
-                editScreen.style.display = 'block';
-                runEdit();
-            }, 800);
-        });
+        function resetQuiz() {
+            audioA.pause(); audioB.pause(); audioC.pause(); audioD.pause();
+            goToScreen('screen-quiz');
+        }
     </script>
 </body>
 </html>
